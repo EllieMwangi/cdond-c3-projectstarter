@@ -150,6 +150,25 @@ jobs:
             - project/.circleci/ansible/inventory.txt
       - destroy-environment:
           workflow-id: $CIRCLE_WORKFLOW_ID:0:7
+  configure-infrastructure:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["b2:ca:1e:ea:82:84:5a:b7:0f:00:95:ce:7f:02:41:98"]
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Install dependencies
+          command: |
+              apt-get install tar gzip ansible awscli -y
+      - run:
+          name: Configure server
+          command: |
+              cd .circleci/ansible
+              ansible-playbook -i inventory.txt configure-server.yml
+      # Here's where you will add some code to rollback on failure 
 workflows:
   udapeople-workflow:
     jobs:
@@ -167,4 +186,6 @@ workflows:
           requires: [build-backend]
       - deploy-infrastructure:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
          
