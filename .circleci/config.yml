@@ -4,31 +4,35 @@ jobs:
   build-frontend:
     docker:
       - image: circleci/node:13.8.0
-    restore_cache:
-      keys: [frontend-build]
-    run:
-      name: "Frontend build"
-      command: |
-          cd frontend
-          npm install
-          npm run build
-    save_cache:
-      paths: [frontend/node_modules]
-      key: frontend-build
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [frontend-build]
+      - run:
+          name: "Frontend build"
+          command: |
+              cd frontend
+              npm install
+              npm run build
+      - save_cache:
+          paths: [frontend/node_modules]
+          key: frontend-build
   build-backend:
     docker:
       - image: circleci/node:13.8.0
-    restore_cache:
-      keys: [backend-build]
-    run:
-      name: "Backend build"
-      command: |
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [backend-build]
+      - run:
+          name: "Backend build"
+          command: |
             cd backend
             npm install
             npm run build
-      save_cache:
-        paths: [backend/node_modules]
-        key: backend-build
+      - save_cache:
+          paths: [backend/node_modules]
+          key: backend-build
 workflows:
   udapeople-workflow:
     jobs:
