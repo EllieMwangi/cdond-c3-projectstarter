@@ -1,5 +1,6 @@
 version: 2.1
-
+orbs:
+  slack: circleci/slack@4.1
 jobs:
   build-frontend:
     docker:
@@ -14,6 +15,12 @@ jobs:
               cd frontend
               npm install
               npm run build
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: basic_success_1	
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
@@ -30,6 +37,12 @@ jobs:
             cd backend
             npm install
             npm run build
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: basic_success_1	
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
