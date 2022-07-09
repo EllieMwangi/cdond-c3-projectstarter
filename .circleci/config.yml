@@ -209,9 +209,9 @@ jobs:
               curl https://kvdb.io/XuMpa7CqNNn3GgVsSFLuaE/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
       - revert-migrations:
-          workflow_id: $CIRCLE_WORKFLOW_ID:0:7
+          workflow_id: CIRCLE_WORKFLOW_ID:0:7
       - destroy-environment:
-          workflow-id: $CIRCLE_WORKFLOW_ID:0:7
+          workflow-id: CIRCLE_WORKFLOW_ID:0:7
 workflows:
   udapeople-workflow:
     jobs:
