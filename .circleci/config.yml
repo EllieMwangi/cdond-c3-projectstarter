@@ -14,7 +14,7 @@ commands:
                   "fields": [
                     {
                       "type": "plain_text",
-                      "text": "*This is a text notification*",
+                      "text": "*Running Job*",
                       "emoji": true
                     }
                   ]
@@ -132,11 +132,4 @@ workflows:
           context: slack-secrets
       - build-backend:
           context: slack-secrets
-      - test-frontend:
-          requires: [build-frontend]
-      - test-backend:
-          requires: [build-backend]
-      - scan-frontend:
-          requires: [build-frontend]
-      - scan-backend:
-          requires: [build-backend]
+ 
