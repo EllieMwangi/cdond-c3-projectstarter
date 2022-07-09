@@ -6,6 +6,7 @@ jobs:
     docker:
       - image: circleci/node:13.8.0
     steps:
+      - trigger_slack_notification
       - checkout
       - restore_cache:
           keys: [frontend-build]
@@ -15,19 +16,20 @@ jobs:
               cd frontend
               npm install
               npm run build
+      - save_cache:
+          paths: [frontend/node_modules]
+          key: frontend-build
       - slack/notify:
           event: fail
           template: basic_fail_1
       - slack/notify:
           event: pass
           template: basic_success_1	
-      - save_cache:
-          paths: [frontend/node_modules]
-          key: frontend-build
   build-backend:
     docker:
       - image: circleci/node:13.8.0
     steps:
+      - trigger_slack_notification
       - checkout
       - restore_cache:
           keys: [backend-build]
@@ -37,15 +39,15 @@ jobs:
             cd backend
             npm install
             npm run build
+      - save_cache:
+          paths: [backend/node_modules]
+          key: backend-build
       - slack/notify:
           event: fail
           template: basic_fail_1
       - slack/notify:
           event: pass
           template: basic_success_1	
-      - save_cache:
-          paths: [backend/node_modules]
-          key: backend-build
   test-frontend:
     docker:
       - image: circleci/node:13.8.0
@@ -105,7 +107,6 @@ workflows:
     jobs:
       - build-frontend:
           context: slack-secrets
-          
       - build-backend:
           context: slack-secrets
       - test-frontend:
