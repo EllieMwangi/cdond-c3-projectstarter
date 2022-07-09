@@ -197,7 +197,9 @@ jobs:
           keys: [backend-build]
       - run: 
           name: Install dependencies
-          command: sudo apt-get install awscli -y 
+          command: |
+            sudo apt-get update -y
+            sudo apt-get install awscli -y      
       - run:
           name: Run migrations
           command: |
