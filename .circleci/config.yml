@@ -162,7 +162,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-              apt-get install tar gzip ansible awscli -y
+              yum -y install tar gzip
       - run:
           name: Configure server
           command: |
