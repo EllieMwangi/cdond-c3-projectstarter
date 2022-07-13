@@ -263,7 +263,9 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible tar gzip nodejs npm curl awscli
+            apk add --update ansible tar gzip nodejs npm
+            pip install awscli
+            apk --no-cache add curl
       - run:
           name: Copy Ansible Files
           command: |
