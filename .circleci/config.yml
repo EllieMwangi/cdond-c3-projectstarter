@@ -251,6 +251,35 @@ jobs:
           workflow_id: CIRCLE_WORKFLOW_ID:0:7
       - destroy-environment:
           workflow-id: CIRCLE_WORKFLOW_ID:0:7
+  deploy-backend:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["b2:ca:1e:ea:82:84:5a:b7:0f:00:95:ce:7f:02:41:98"]
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update ansible tar gzip nodejs
+      - run:
+          name: Copy Ansible Files
+          command: |
+              cd backend
+              npm i
+              npm run build
+              cd ..
+              tar -C backend -czvf artifact.tar.gz .
+              cd .circleci/ansible
+              echo "Contents  of the inventory.txt file is -------"
+              cat inventory.txt
+      - revert-migrations:
+          workflow_id: CIRCLE_WORKFLOW_ID:0:7
+      - destroy-environment:
+          workflow-id: CIRCLE_WORKFLOW_ID:0:7
+    
 workflows:
   udapeople-workflow:
     jobs:
@@ -274,5 +303,8 @@ workflows:
           requires: [configure-infrastructure]
       - deploy-frontend:
           requires: [run-migrations]
+      - deploy-backend:
+          requires: [run-migrations]
+
 
          
