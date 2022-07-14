@@ -1,0 +1,24 @@
+- name: "Install dependencies"
+  become: true
+  apt:
+    name: ["unzip", "tar"]
+    state: latest
+    update_cache: yes
+- name: "Copy artifact into the server"
+  become: true
+  copy:
+    src: artifact.tar.gz
+    dest: ~/
+- name: "Extract zipped artifact"
+  become: true
+  unarchive:
+    src: ~/artifact.tar.gz
+    dest: ~/
+    remote_src: true
+    validate_certs: true
+- name: "Run app"
+  become: true
+  shell: |
+    pm2 stop default
+    pm2 start npm -- start
+
