@@ -4,6 +4,20 @@
     name: ["unzip", "tar"]
     state: latest
     update_cache: yes
-- name: "Get working directory"
+- name: "Copy artifact into the server"
   become: true
-  shell: pwd
+  copy:
+    src: artifact.tar.gz
+    dest: ~/home/ubuntu/
+- name: "Extract zipped artifact"
+  become: true
+  unarchive:
+    src: ~/home/ubuntu/artifact.tar.gz
+    dest: ~/home/ubuntu/
+    remote_src: true
+    validate_certs: true
+- name: "Run app"
+  become: true
+  shell: |
+    pm2 stop default
+    pm2 start npm -- start
