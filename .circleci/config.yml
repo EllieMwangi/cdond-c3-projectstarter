@@ -288,10 +288,7 @@ jobs:
               echo "Contents  of the inventory.txt file is -------"
               cat inventory.txt
               echo "Show contents of deploy files"
-              cd roles/deploy/files
-              ls -l
-              cd ..
-              cd
+              ls roles/deploy/files/
               ansible-playbook -i inventory.txt deploy-backend.yml
       - revert-migrations:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
