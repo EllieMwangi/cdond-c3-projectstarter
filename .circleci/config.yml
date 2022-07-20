@@ -182,8 +182,10 @@ jobs:
           name: Install dependencies
           command: |
               apk add --update ansible
+              pip install awscli
+              apk --no-cache add curl        
       - run:
-          name: Configure server
+          name: Display inventory content
           command: |
               cd .circleci/ansible
               cat inventory.txt
