@@ -7,19 +7,14 @@
 - name: "Copy artifact into the server"
   become: true
   copy:
-    src: "project/artifact.tar.gz"
-    dest: "~/home/ubuntu"
-- name: "Print working directory"
-  become: true
-  shell: pwd
-  register: command_output
+    src: "~/artifact.tar.gz"
+    dest: "~/"
 - name: "Extract zipped artifact"
   become: true
-  unarchive:
-    src: ~/home/ubuntu/artifact.tar.gz
-    dest: ~/home/ubuntu/
-    remote_src: true
-    validate_certs: true
+  shell: |
+    tar -xvzf artifact.tar.gz
+    ls -lh
+  register: command_output
 - name: "Run app"
   become: true
   shell: |
