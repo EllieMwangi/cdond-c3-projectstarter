@@ -4,10 +4,6 @@
     name: ["unzip", "tar"]
     state: latest
     update_cache: yes
-- name: "Print working directory"
-  become: true
-  shell: pwd
-  register: command_output
 - name: "Copy artifact into the server"
   become: true
   copy:
@@ -16,6 +12,7 @@
 - name: "Print working directory"
   become: true
   shell: pwd
+  register: command_output
 - name: "Extract zipped artifact"
   become: true
   unarchive:
