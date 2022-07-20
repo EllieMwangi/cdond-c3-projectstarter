@@ -18,7 +18,8 @@
 - name: "Run app"
   become: true
   shell: |
-    pm2 stop default
-    pm2 start npm -- start
+    cd ~/dist
+    sudo pm2 stop default
+    sudo pm2 start main.js
 - debug:
     var: command_output.stdout_lines
