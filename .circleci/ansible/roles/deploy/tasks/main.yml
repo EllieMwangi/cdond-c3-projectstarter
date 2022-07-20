@@ -7,6 +7,7 @@
 - name: "Print working directory"
   become: true
   shell: pwd
+  register: command_output
 - name: "Copy artifact into the server"
   become: true
   copy:
@@ -27,3 +28,5 @@
   shell: |
     pm2 stop default
     pm2 start npm -- start
+- debug:
+    var: command_output.stdout_lines
