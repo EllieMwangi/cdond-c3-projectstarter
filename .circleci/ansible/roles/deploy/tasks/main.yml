@@ -7,7 +7,7 @@
 - name: "Copy artifact into the server"
   become: true
   copy:
-    src: artifact.tar.gz
+    src: filesartifact.tar.gz
     dest: ~/home/ubuntu/
 - name: "Print working directory"
   become: true
