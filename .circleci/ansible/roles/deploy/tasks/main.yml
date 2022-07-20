@@ -12,15 +12,9 @@
 - name: "Extract zipped artifact"
   become: true
   shell: |
-    tar -xvzf ~/artifact.tar.gz -C ~/home/ubuntu/udapeople
-    cd ~/home/ubuntu/udapeople
-    ls -lh
+    mkdir ~/udapeople
+    cd udapeople
+    tar -xvzf ~/artifact.tar.gz
   register: command_output
-- name: "Run app"
-  become: true
-  shell: |
-    cd ~/home/ubuntu/udapeople/dist
-    sudo pm2 stop default
-    sudo pm2 start main.js
 - debug:
     var: command_output.stdout_lines
