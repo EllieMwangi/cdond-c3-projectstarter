@@ -201,6 +201,7 @@ jobs:
               echo TYPEORM_MIGRATIONS=$TYPEORM_MIGRATIONS >> ~/project/backend/.env
               echo TYPEORM_MIGRATIONS_DIR=$TYPEORM_MIGRATIONS_DIR >> ~/project/backend/.env
               echo TYPEORM_PORT=$TYPEORM_PORT >> ~/project/backend/.env
+              echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> ~/project/backend/.env    
               cat ~/project/backend/.env
               cd .circleci/ansible
               cat inventory.txt
