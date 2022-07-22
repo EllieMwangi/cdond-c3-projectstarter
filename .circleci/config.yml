@@ -50,17 +50,16 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          keys: [frontend-build]
       - run:
           name: "Frontend build"
           command: |
               cd frontend
               npm install
               npm run build
-      - save_cache:
-          paths: [frontend/node_modules]
-          key: frontend-build
+      - persist_to_workspace:
+          root: ~/
+          paths: 
+            - project/frontend/node_modules
       - notify_slack_error
       - notify_slack_pass
   build-backend:
@@ -68,17 +67,16 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          keys: [backend-build]
       - run:
           name: "Backend build"
           command: |
             cd backend
             npm install
             npm run build
-      - save_cache:
-          paths: [backend/node_modules]
-          key: backend-build
+      - persist_to_workspace:
+          root: ~/
+          paths: 
+            - project/backend/node_modules
       - notify_slack_pass
       - notify_slack_error
   test-frontend:
@@ -86,8 +84,8 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          keys: [frontend-build]
+      - attach_workspace:
+          at: ~/
       - run:
           name: "Test Frontend"
           command: |
@@ -99,8 +97,8 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          keys: [backend-build]
+      - attach_workspace:
+          at: ~/
       - run:
           name: "Test Backend"
           command: |
@@ -112,8 +110,8 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          keys: [frontend-build]
+      - attach_workspace:
+          at: ~/
       - run:
           name: "Scan frontend for vunerabilities"
           command: |
@@ -126,8 +124,8 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          keys: [backend-build]
+      - attach_workspace:
+          at: ~/
       - run:
           name: "Scan backend for vunerabilities"
           command: |
@@ -217,8 +215,8 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          keys: [backend-build]
+      - attach_workspace:
+          at: ~/
       - run: 
           name: Install dependencies
           command: |
@@ -237,6 +235,10 @@ jobs:
             then
               curl https://kvdb.io/XuMpa7CqNNn3GgVsSFLuaE/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - "project/backend"
       - revert-migrations:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
       - destroy-environment:
@@ -246,6 +248,8 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
+      - attach_workspace:
+          at: ~/
       - run:
           name: Install dependencies
           command: |
