@@ -210,7 +210,7 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - ~/project/backend/.env
+            - project/backend/.env
   run-migrations:
     docker:
       - image: circleci/node:13.8.0
