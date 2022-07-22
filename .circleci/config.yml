@@ -292,6 +292,8 @@ jobs:
           name: Copy Ansible Files
           command: |
               cd backend
+              ls -lh
+              cat .env
               npm i
               npm run build
               cd ..
