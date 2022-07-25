@@ -373,7 +373,7 @@ jobs:
             
             echo ${WorkflowID}
 
-            curl https://kvdb.io/XuMpa7CqNNn3GgVsSFLuaE/workflowid -d "${WorkflowID}"
+            curl https://kvdb.io/XuMpa7CqNNn3GgVsSFLuaE/workflowid -d "${WorkflowID:10:17}"
       - run:
           name: Update cloudfront distribution
           command: |
