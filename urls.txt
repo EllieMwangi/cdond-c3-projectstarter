@@ -1,2 +1,2 @@
 URL01: https://github.com/EllieMwangi/cdond-c3-projectstarter.git
-URL02: 
+URL02: http://udapeople-1904953.s3-website-us-east-1.amazonaws.com
