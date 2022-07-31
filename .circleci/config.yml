@@ -173,7 +173,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["b2:ca:1e:ea:82:84:5a:b7:0f:00:95:ce:7f:02:41:98"]
+          fingerprints: ["a9:0f:58:02:63:0b:be:02:4c:04:11:8b:96:08:ff:52"]
       - attach_workspace:
           at: ~/
       - run:
@@ -233,7 +233,7 @@ jobs:
           command: |
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
-              curl https://kvdb.io/XuMpa7CqNNn3GgVsSFLuaE/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+              curl --insecure https://kvdb.io/XuMpa7CqNNn3GgVsSFLuaE/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
       - persist_to_workspace:
           root: ~/
@@ -282,7 +282,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["b2:ca:1e:ea:82:84:5a:b7:0f:00:95:ce:7f:02:41:98"]
+          fingerprints: ["a9:0f:58:02:63:0b:be:02:4c:04:11:8b:96:08:ff:52"]
       - attach_workspace:
           at: ~/
       - run:
